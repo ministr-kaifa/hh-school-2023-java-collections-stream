@@ -36,7 +36,7 @@ public class Task8 {
   }
 
   public static String convertPersonToString(Person person) {
-    return List.of(person.getSecondName(), person.getFirstName(), person.getSecondName()).stream()
+    return Stream.of(person.getSecondName(), person.getFirstName(), person.getSecondName())
       .filter(Objects::nonNull)
       .collect(Collectors.joining(" "));
   }
