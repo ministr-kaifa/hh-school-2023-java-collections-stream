@@ -30,9 +30,7 @@ public class Task8 {
   }
 
   public static Set<String> getDifferentNames(Collection<Person> persons) {
-    return getNames(persons).stream()
-      .distinct()
-      .collect(Collectors.toSet());
+    return new HashSet<>(getNames(persons));
   }
 
   public static String convertPersonToString(Person person) {
