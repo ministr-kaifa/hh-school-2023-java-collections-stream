@@ -2,7 +2,6 @@ package tasks;
 
 import common.Person;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -47,14 +46,20 @@ public class Task8 {
       .collect(Collectors.toMap(
         Person::getId,
         Task8::convertPersonToString, 
-        (p1, p2) -> p1, 
-        HashMap::new));
+        (p1, p2) -> p1));
   }
 
   public static boolean hasSamePersons(Collection<Person> persons1, Collection<Person> persons2) {
-    var persons2AsSet = new HashSet<>(persons2);
-    return persons1.stream()
-      .anyMatch(persons2AsSet::contains);
+    if(persons2 instanceof HashSet persons2AsSet) {
+      return persons1.stream()
+        .anyMatch(persons2AsSet::contains);
+    } else if (persons1 instanceof HashSet persons1AsSet) {
+      return persons2.stream()
+        .anyMatch(persons1AsSet::contains);
+    } else {
+      return persons1.stream()
+        .anyMatch(new HashSet<>(persons2)::contains);
+    }
   }
 
   public static long countEven(Stream<Integer> numbers) {
