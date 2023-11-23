@@ -2,9 +2,12 @@ package tasks;
 
 import common.Person;
 import common.PersonService;
-import java.util.Collections;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /*
 Задача 1
@@ -21,8 +24,22 @@ public class Task1 {
     this.personService = personService;
   }
 
+  //O(n + n * 1) = O(n)
   public List<Person> findOrderedPersons(List<Integer> personIds) {
     Set<Person> persons = personService.findPersons(personIds);
-    return Collections.emptyList();
+    
+    //O(n)
+    var personIdsMap = persons.stream()
+      .collect(Collectors.toMap(
+        Person::getId,
+        Function.identity(), 
+        (p1, p2) -> p1, 
+        HashMap::new));
+
+    //O(n * 1)
+    return personIds.stream()
+      .map(personIdsMap::get)
+      .toList();
+
   }
 }
